@@ -178,7 +178,7 @@ at the bottom of the resources started. It should look this this:
 ### Execution Overview:
 
 #### 1. **User Input:**
-   - The user runs the command `selfnotif` in the client chat (can be open by default with `t`).
+   - Login in the server and run the command `selfnotif` in the client chat (can be open by default with `t` or in F8 console log).
 
 #### 2. **Server-Side Execution:**
    - The `RegisterCommand` native is triggered.
@@ -193,7 +193,7 @@ at the bottom of the resources started. It should look this this:
    - Sends a client event on `chat` resource to execute the chat message with the parameter received.
 
 ### Result:
-- The user sees "Hello World has been sent to you" in the chat.
+- You will see "Hello World has been sent to you" in the client chat.
   
   <img src="https://i.imgur.com/QfBlU3a.png" alt="pic" width="200">
 - "Hello World" is displayed in the server console.
@@ -201,9 +201,9 @@ at the bottom of the resources started. It should look this this:
   <img src="https://i.imgur.com/aPsq1F2.png" alt="pic" width="200">
 
 ### Workflow:
-- **User Action:** The user invokes the command in the chat.
+- **User Action:** You invoke the command in the chat.
 - **Server Processing:** The server executes the command, processes the logic, and communicates with the client.
-- **Client Interaction:** The client receives the information and handles the display accordingly.
+- **Client Interaction:** You receive the information and handles the display accordingly.
 
 ## Conclusion:
 Congratulations! By following this process, you've successfully created your first FiveM resource, implementing basic server-client communication via events and commands.
