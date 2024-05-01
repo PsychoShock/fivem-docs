@@ -149,7 +149,7 @@ if not information then return end
 ```
 This line serves as a crucial validation step, ensuring that the code receives a valid parameter sent by the server. Detecting and handling invalid parameters can be instrumental in identifying and thwarting cheating attempts. For further insights on advanced techniques, refer to the [advanced part](/#first-resource-extra).
 
-#### 2. Checking if param is valid
+#### 2. Trigger the chat event
 ```lua
 TriggerEvent('chat:addMessage', {
   template = '<div class="chat-message"><b>SYSTEM</b><br>{0} has been sent to you</div>',
