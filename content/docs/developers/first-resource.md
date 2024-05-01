@@ -71,7 +71,7 @@ In order to make our first resource, we will create the file `main_sv.lua` insid
 
 The server-side files, stored in the `server` folder, manage critical operations and data storage inaccessible to players, ensuring integrity and preventing exploitation through robust validation and processing mechanisms.
 
-In this file, we will start by using [RegisterCommand](https://docs.fivem.net/natives/?_0x5FA79B0F) natives. You can learn more about natives [here](/#natives). You can copy the following:
+In this file, we will start by using [RegisterCommand](https://docs.fivem.net/natives/?_0x5FA79B0F) native. You can learn more about natives [here](/#natives). You can copy the following:
 ```lua
 -- Registering a command called 'selfnotif'
 RegisterCommand('selfnotif', function(source)
