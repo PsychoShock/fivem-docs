@@ -11,7 +11,7 @@ This guide will show you how to make a resource to send a notification to player
 Prerequisites
 -------
 
-To complete this guide, you will need to have all the prerequisites. You can skip ahead to [create the folder](#createfolder) section if you have everything.
+To complete this guide, you will need to have all the prerequisites. You can skip ahead to [create the folder](#create-the-folder) section if you have everything.
 
 - [FiveM client](https://docs.fivem.net/docs/client-manual/installing-fivem/)
 - [FiveM server](https://docs.fivem.net/docs/server-manual/setting-up-a-server/)
