@@ -147,7 +147,7 @@ Let's break this in part:
 ```lua
 if not information then return end
 ```
-This line serves as a crucial validation step, ensuring that the code receives a valid parameter sent by the server. Detecting and handling invalid parameters can be instrumental in identifying and thwarting cheating attempts. For further insights on advanced techniques, refer to the [advanced part](/#first-resource-extra).
+This line serves as a crucial validation step, ensuring that the code receives a valid parameter sent by the server. Detecting and handling invalid parameters can be instrumental in identifying and thwarting cheating attempts. For further insights on advanced techniques, refer to the [advanced part](/content/docs/developers/first-resource-extra).
 
 #### 2. Trigger the chat event
 ```lua
