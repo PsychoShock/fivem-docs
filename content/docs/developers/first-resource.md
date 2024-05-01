@@ -194,8 +194,10 @@ at the bottom of the resources started. It should look this this:
 
 ### Result:
 - The user sees "Hello World has been sent to you" in the chat.
+  
   <img src="https://i.imgur.com/QfBlU3a.png" alt="pic" width="200">
 - "Hello World" is displayed in the server console.
+  
   <img src="https://i.imgur.com/aPsq1F2.png" alt="pic" width="200">
 
 ### Workflow:
