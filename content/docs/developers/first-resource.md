@@ -22,7 +22,7 @@ Create the folder
 
 Inside `resources` folder of your FiveM server, we are gonna create a folder our first resource. For this, we will create a folder called `first-resource`.
 
-<img src="https://i.imgur.com/QU7CCam.png" alt="pic" width="500">
+<img src="https://i.imgur.com/A7dMuhh.png" alt="pic" width="500">
 
 So we should have a folder called `first-resource` in `resources` folder of you FiveM server.
 
@@ -102,7 +102,9 @@ This line ensures that the code is executed by a player rather than the server c
 ```lua
 local value = 'Hello world'
 ```
-This line defines a local variable named `value` and assigns it the string 'Hello world'. In Lua, variables need to be localized using the `local` keyword.
+This line defines a local variable named `value` and assigns it the string 'Hello world'. In Lua, variables need to be localized using the `local` keyword. It's a best practice that helps in managing the scope, efficiency, encapsulation, and prevention of name clashes within the codebase. By defining a variable as `local`, it is restricted to the block where it is declared and its nested blocks. This ensures that the variable's value is contained within a specific context and cannot be inadvertently modified from outside that context.
+
+In this example, the `local value` will be only available in the `selfnotif` register command.
 
 #### 3. Printing to the Server Console:
 ```lua
