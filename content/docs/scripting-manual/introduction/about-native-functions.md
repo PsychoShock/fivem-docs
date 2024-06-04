@@ -1,22 +1,100 @@
 ---
-title: About native functions
-weight: 413
+title: Understanding and Using Native Functions in FiveM
+weight: 1300
 ---
 
-This article is under development.
-The full list of native functions can be found [here][natives-doc].
+In FiveM, you have access to what are called "native functions" or simply "natives". These functions interact with the game directly, allowing you to perform a wide variety of actions within the game environment. This guide will explain what natives are, where you can find them, and how to use them in your scripts.
 
+## What Are Native Functions?
+Native functions in FiveM are predefined functions that enable interaction with the game engine. They are essential for creating and managing game mechanics, player interactions, and various other functionalities within your server. Natives are used extensively in both client-side and server-side scripts to control gameplay elements, manipulate objects, manage player states, and much more.
 
-<!-- TODO:
-Native functions, or just 'natives', are functions that do fucking shit wtf how do i possibly explain this
+These functions are called "native" because they are built into the game engine itself. They provide a powerful interface for developers to interact with the underlying game code. Natives can perform a wide range of tasks, from simple operations like printing messages to the console, to complex actions such as manipulating player physics or creating game entities.
 
-In FiveM, you have access to what is called 'native functions'. These functions interact with the game, and only work on
-the client. It's a huge list. Very huge. The biggest you've ever seen. And it's great. To understand them you must have
-a very high IQ, like me.
+## Where Can You Find Native Functions?
+FiveM provides comprehensive documentation for native functions, which can be found on our official website. This documentation is essential for understanding what each native function does, how to use it, and what parameters it requires.
 
-- Explain what natives are
-- Where can you find them
-- How to use them
--->
+- **FiveM Native Reference**: The primary resource for native functions is the [FiveM Native Reference](https://docs.fivem.net/natives/). This reference includes a searchable database of all available native functions, along with detailed descriptions, parameter lists, and usage examples.
 
-[natives-doc]: https://runtime.fivem.net/doc/reference.html
+- **FiveM Community Forums**: The [FiveM forums](https://forum.fivem.net/) are another valuable resource. Here, you can find discussions, tutorials, and examples from other developers who share their experiences and solutions related to using native functions.
+
+- **CitizenFX GitHub**: Users can contribute to the [CitizenFX GitHub repository](https://github.com/citizenfx/fivem) by adding descriptions, names, and new native functions. This collaborative effort helps keep the list of natives comprehensive and up-to-date, ensuring that the community benefits from the latest features and improvements.
+
+## Difference Between Client Natives and Server-Side Natives
+
+### Client Natives
+Client natives are functions that run on the player's game client. These functions are primarily used to handle tasks related to the player's immediate environment, rendering, input handling, and interactions that need to occur on the client side. Examples include manipulating the player’s view, handling UI elements, and interacting with client-specific data.
+
+### Server-Side Natives
+Server-side natives, on the other hand, run on the server. These functions manage game logic that needs to be controlled and validated by the server, such as player authentication, database interactions, and ensuring game state consistency. Server-side natives are crucial for maintaining the integrity and security of the game.
+
+### RPC Natives
+Remote Procedure Call (RPC) natives are a special category that facilitates communication between the client and server. They enable the client to request services from the server and vice versa. These are essential for operations that require synchronization between the client and server, such as triggering events on one side from the other. Examples include `TriggerClientEvent` and `TriggerServerEvent`, which allow for sending data and invoking functions across the network.
+
+## How to Use Native Functions
+Using native functions in your FiveM scripts involves calling the functions with the appropriate parameters. Let's go through the basic steps of using natives in both client-side and server-side scripts.
+
+### Client-Side Example
+Client-side scripts are executed on the player's game client and are used to handle tasks such as rendering, player input, and game UI. Here’s a basic example of how to use a native function in a client-side script:
+
+1. **Create a Client Script**: In your resource folder, create a new client script file, e.g., `main_cl.lua`.
+2. **Register and Use a Native Function**: Use the native function `AddTextEntry` to add a custom text entry that can be displayed on the game UI.
+
+```lua
+-- main_cl.lua
+
+-- Add a custom text entry
+AddTextEntry('CUSTOM_ENTRY', 'Hello, FiveM!')
+
+-- Display the custom text entry when a player presses a specific key
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        if IsControlJustReleased(0, 38) then -- Key E
+            BeginTextCommandDisplayHelp('CUSTOM_ENTRY')
+            EndTextCommandDisplayHelp(0, false, true, -1)
+        end
+    end
+end)
+```
+
+### Server-Side Example
+Server-side scripts run on the game server and are responsible for handling game logic, player data, and other backend tasks. Here’s an example of using a native function in a server-side script:
+
+1. **Create a Server Script**: In your resource folder, create a new server script file, e.g., `main_sv.lua`.
+2. **Register a Command and Use a Native Function**: Use the native function `GetPlayerName` to get the name of a player and print it to the server console.
+
+```lua
+-- main_sv.lua
+
+-- Register a command to get the player name
+RegisterCommand('getplayername', function(source, args, rawCommand)
+    local playerName = GetPlayerName(source)
+    print('Player Name: ' .. playerName)
+end, false)
+```
+
+### Create Your First Resource
+To learn how to create your first resource step-by-step, refer to the comprehensive guide in [this section](/content/docs/scripting-manual/introduction/creating-your-first-script-extra.md). This guide will walk you through the process of setting up a new resource, writing your first script, and integrating it into your FiveM server.
+
+### Commonly Used Native Functions
+Here are some commonly used native functions and their descriptions:
+
+- **AddTextEntry**: Adds a text entry to the game.
+  ```lua
+  AddTextEntry(key, value)
+  ```
+
+- **GetPlayerName**: Returns the name of a player.
+  ```lua
+  local playerName = GetPlayerName(playerId)
+  ```
+
+- **DrawNotification**: Displays a notification on the screen.
+  ```lua
+  DrawNotification(false, true)
+  ```
+
+## Conclusion
+Understanding and using native functions is crucial for developing sophisticated and responsive resources in FiveM. By leveraging the extensive library of native functions provided by FiveM, you can create highly interactive and customized experiences for your players. Always refer to the official documentation for the most accurate and detailed information on each native function.
+
+By following this guide, you should now have a basic understanding of what native functions are, where to find them, and how to use them in your FiveM scripts. Happy coding!
