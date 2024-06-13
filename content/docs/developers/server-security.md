@@ -3,10 +3,10 @@ title: Make your server more secure
 draft: true
 ---
 
-While our anti-cheat is powerful, it cannot protect some of the exploit your server might have. In this simple guide, we'll try to show you how to get started with some tips to prevent in Lua. 
+Our anti-cheat cannot protect some of the exploit your server might have. In this simple guide, we'll try to show you how to get started with some tips to prevent in Lua. 
 
 ## Events
-Some tools authorize the client to trigger events allowing them to have access to a wide possibilities, let's see how you can protect them:
+Some cheats authorize the client to trigger events allowing them to have access to a wide possibilities, let's see how you can protect them:
 
 ### Proper Use of Event Handlers in Lua
 When working with events in Lua, it's crucial to register them correctly based on whether they are called by the client or the server. A common mistake is registering server events that are not supposed to be called by the client, or vice-versa, which can lead to security vulnerabilities. Here’s a concise guide to using `AddEventHandler` and `RegisterNetEvent` appropriately:
@@ -80,7 +80,7 @@ local row = MySQL.single(action..' `firstname`, `lastname` FROM'..database..sear
 - **Readability**: The query is constructed dynamically, making it harder to read and understand at a glance.
 - **Maintenance**: More difficult to maintain due to the dynamic construction of the query string.
 
-### Potential Consequences of SQL Injection in FiveM
+### Potential Consequences of SQL Injection
 
 - **Unauthorized Access**: Attackers can bypass authentication mechanisms and gain unauthorized access to user data.
 - **Data Manipulation**: Attackers can modify, delete, or insert data, leading to data corruption or loss.
@@ -180,7 +180,7 @@ We also have some other options:
 ```
 sv_disableClientReplays
 ```
-Enabling this will mostly aim to disable ESP/Aimbot options. Please note that this will disable Rockstar Editor.
+Enabling this will aim to reduce chances of cheating options. Please note that this will disable Rockstar Editor.
 
 ## Player Trust Level
 It's good to have a player trust level
