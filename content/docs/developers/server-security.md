@@ -3,10 +3,10 @@ title: Make your server more secure
 draft: true
 ---
 
-While our anti-cheat is powerful, it cannot protect some of the exploit your server might have. In this simple guide, we'll try to show you how to get started with some tips to prevent in Lua. 
+Our anti-cheat cannot protect some of the exploit your server might have. In this simple guide, we'll try to show you how to get started with some tips to prevent in Lua. 
 
 ## Events
-Some tools authorize the client to trigger events allowing them to have access to a wide possibilities, let's see how you can protect them:
+Some cheats authorize the client to trigger events allowing them to have access to a wide possibilities, let's see how you can protect them:
 
 ### Proper Use of Event Handlers in Lua
 When working with events in Lua, it's crucial to register them correctly based on whether they are called by the client or the server. A common mistake is registering server events that are not supposed to be called by the client, or vice-versa, which can lead to security vulnerabilities. Here’s a concise guide to using `AddEventHandler` and `RegisterNetEvent` appropriately:
@@ -34,7 +34,7 @@ end)
 You can learn more [on this guide](docs/scripting-manual/working-with-events/listening-for-events/).
 
 ### Add Statement Checks
-Even if you build a strong anti-cheat, adding statement checks on server events makes them more secure. This is a good practice, although it doesn't prevent everything. Below, we will share some good tips.
+Even if you build a strong anti-cheat, adding statement checks on **server** events makes them more secure. This is a good practice, although it doesn't prevent everything. Below, we will share some good tips.
 
 When using networked events, make sure to add some checks like:
 - Player money
@@ -44,10 +44,10 @@ When using networked events, make sure to add some checks like:
 - Player experience and level
 - Player [permissions](https://forum.cfx.re/t/basic-aces-principals-overview-guide/90917) and roles
 
-Make sure to retrieve all values using server-side methods, not allowing players to change the values. This ensures the integrity and security of your game environment.
+Make sure to retrieve all values using server-side methods, not allowing players to change the values. This ensures the integrity and security of your game environment. Please note that client checks can also be a good pratice but can be easily be ovverided.
 
 ## SQL
-Let's take an example from a popular [sql resource](https://github.com/overextended/oxmysql):
+Let's take an example from a popular [SQL resource](https://github.com/overextended/oxmysql):
 
 ### Comparison of SQL Queries
 
@@ -80,7 +80,7 @@ local row = MySQL.single(action..' `firstname`, `lastname` FROM'..database..sear
 - **Readability**: The query is constructed dynamically, making it harder to read and understand at a glance.
 - **Maintenance**: More difficult to maintain due to the dynamic construction of the query string.
 
-### Potential Consequences of SQL Injection in FiveM
+### Potential Consequences of SQL Injection
 
 - **Unauthorized Access**: Attackers can bypass authentication mechanisms and gain unauthorized access to user data.
 - **Data Manipulation**: Attackers can modify, delete, or insert data, leading to data corruption or loss.
@@ -91,6 +91,8 @@ To mitigate the risks of SQL injection and ensure the security, it is essential 
 ## Cheaters
 Even thought we are trying to keep our community safe, some users might have not been detected yet. This is some tools to prevents some popular actions:
 
+Please note that this doesn't mean it will block the features presented, but can prevent some cases.
+
 ### Teleporation/NoClip
 This is a popular function allowing the cheater to move around the map easily which allow to do some actions in the server easier.
 
@@ -98,8 +100,8 @@ This is a popular function allowing the cheater to move around the map easily wh
 local wasFastTravelAllowed = false
 CreateThread(function()
     local lastDist = GetEntityCoords(PlayerPedId())
-    local admin = IsAceAllowed('noclip')
-    if admin then return end
+    local admin = IsAceAllowed('noclip') -- can be replace by any ace you wish
+    if admin then return end -- will check if player is admin and not run the thread
     while true do
         local player = PlayerPedId()
         local playerCoords = GetEntityCoords(player)
@@ -140,9 +142,45 @@ IsPlayerTeleportActive()
 ```
 While setting the export in each teleportation player can do, you also need to make sure using [StartPlayerTeleport](https://docs.fivem.net/natives/?_0xAD15F075A4DA0FDE) and [StopPlayerTeleport](https://docs.fivem.net/natives/?_0xC449EDED9D73009C) since the function allowing the player to teleport with `wasFastTravelAllowed` check if player is using this function. Not using those natives might cause some false positives reports.
 
+Note that this not a copy/paste code, this just explain how to prevent some cases where cheaters might be caught.
+
+### Screenshot
+Taking a screenshot of the player's screen can be an effective method to monitor unusual activities that might indicate cheating. You can use [screenshot-basic](https://github.com/citizenfx/screenshot-basic) to capture what they are doing.
+
+
+### General report function
+You can create some usefull functions to generalize every report in one, here's an example:
+```lua
+local reportsDone = {}
+function reportCheater(enumReason, requestScreenshot, preventSpam)
+	if reportsDone[enumReason] then return end
+
+	if preventSpam then
+		reportsDone[enumReason] = true
+
+        Citizen.SetTimeout(60 * 1000 * 10, function() -- allow 10 min between each report
+			reportsDone[enumReason] = false
+		end)
+	end
+
+    local screenshot
+    if requestScreenshot then
+        exports['screenshot-basic']:requestScreenshot(function(data)
+            screenshot = data
+        end)
+    end
+
+	-- trigger server event
+end
+```
+
+**enumReason:** Can be use te enumerize a list of reason this function is trigger.
+**requestScreenshot:** Can be use to request a screenshot for the player on warn.
+**preventSpam:** Can be use to prevent some things that might pass `reportCheater` function more than 1 time. This will block the specific alert for 1 every 10 minutes.
+
 ## Server owner options
 #### Please note that the following shouldn't be touch unless you know what you are doing.
-Adhesive team is always really hard to prevent cheaters to be able to use them. You can have most of those features enabled by default with `8450` Fx build version and higher.
+Adhesive team is always work really hard to prevent cheaters to be able to use them. You can have most of those features enabled by default with `8450` Fx build version and higher.
 <!-- Reference https://discord.com/channels/779705925577080842/842554061734936596/1197336243038597263 -->
 
 ```
@@ -165,6 +203,21 @@ sv_kick_players_cnl_consecutive_failures
 ```
 How many X's in a row do we need to see a player over the `timeout_sec` in order to Kick. The default is set to 2, indicating that if a player fails to check in for 10 minutes and then misses the next check-in update, they will be kicked. This serves as a failsafe mechanism.
 
+```
+sv_authMaxVariance
+```
+**Variance** is how likely the user's id will change for a given provider (i.e. 'steam', 'ip', or 'license'). You can learn about it [here](docs/server-manual/erver-commands/#sv_authmaxvariance-newvalue).
+
+```
+sv_authMinTrust
+```
+**Trust** is how unlikely it is for the user's identity to be spoofed by a malicious client. You can learn about it [here](docs/server-manual/erver-commands/#sv_authmintrust-newvalue).
+
+```
+sv_filterRequestControl
+```
+A console variable used to block `REQUEST_CONTROL_EVENT` routing based on a configurable policy. You can learn about the list [here](docs/server-manual/erver-commands/#sv_filterrequestcontrol-mode).
+
 ### Results on Player
 Having those convars activate will likely get the player kick with the following reason:
 ```
@@ -180,11 +233,7 @@ We also have some other options:
 ```
 sv_disableClientReplays
 ```
-Enabling this will mostly aim to disable ESP/Aimbot options. Please note that this will disable Rockstar Editor.
-
-## Player Trust Level
-It's good to have a player trust level
-
+Enabling this will aim to reduce chances of cheating options. Please note that this will disable Rockstar Editor.
 
 ## Important to know
 The codes provided are not suppose to be working on a copy/paste method. This is just some tips to prevent some actions that might happen in the server. This require some knowledge, you are always free to join our [discord](discord.gg/fivem) to get additionnal help.
